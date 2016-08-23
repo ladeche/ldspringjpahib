@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- logback configuration. This file should be put in JONAS_BASE/conf directory 
+	or in a dedicated classpath module in JBoss to easily modify it.
+	For Tomcat, you can put it in CATALINA_BASE/lib directory, but you must remove it from war -->
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<pattern>%date{ISO8601} %-5level [%thread] %logger{30}\(%line\) -
+				%message%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="file"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/tmp/batch.log</file>
+		<encoder>
+			<pattern>%date{ISO8601} %-5level [%thread] %logger{30}\(%line\) -
+				%message%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<maxIndex>3</maxIndex>
+			<FileNamePattern>/tmp/batch.log.%i</FileNamePattern>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>1000KB</MaxFileSize>
+		</triggeringPolicy>
+	</appender>
+	<logger name="ld.maven" level="DEBUG" />
+	<logger name="org.hibernate" level="INFO" />
+	<logger name="net.sf.ehcache" level="INFO" />
+	<root level="WARN">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
+	</root>
+</configuration>

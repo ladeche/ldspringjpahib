@@ -1,0 +1,33 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" 
+	updateCheck="true"
+	monitoring="autodetect" 
+	dynamicConfig="true">
+
+	<diskStore path="java.io.tmpdir" />
+	<defaultCache maxElementsInMemory="10000" eternal="true"
+                  overflowToDisk="false" diskPersistent="false"
+                  diskExpiryThreadIntervalSeconds="1800" memoryStoreEvictionPolicy="FIFO">
+    </defaultCache>
+	
+ 	<!-- Cache entité Player -->
+    <cache name="ld.maven.ldspringjpahib.model.Player"
+           maxElementsInMemory="7"
+           eternal="true"
+           overflowToDisk="false"
+           timeToIdleSeconds="12000"
+           timeToLiveSeconds="12000"
+           diskPersistent="false"
+           diskExpiryThreadIntervalSeconds="120"
+           memoryStoreEvictionPolicy="LRU"  />
+ 
+ 	<!-- Cache requêtes -->
+	<cache name="org.hibernate.cache.internal.StandardQueryCache"
+                maxElementsInMemory="10000"
+                eternal="false"
+                timeToLiveSeconds="86400"
+                overflowToDisk="false"
+                memoryStoreEvictionPolicy="LRU" />
+ 
+ 
+</ehcache>
