@@ -15,6 +15,19 @@
 	    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
         ">
 
+
+	<!-- référencement du fichier properties -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:app.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+
 	<!-- Scan ce package pour les composants -->
 	<context:component-scan base-package="ld.maven.ldspringjpahib" />
 	<jpa:repositories base-package="ld.maven.ldspringjpahib" entity-manager-factory-ref="entityManagerFactory" />
@@ -24,10 +37,10 @@
 	<!-- La datasource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:tcp://localhost:9092/~/test" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
 	</bean>
 
 	<!-- L'entity manager factory -->
@@ -44,7 +57,8 @@
 		</property>
 		<property name="jpaProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+<!-- 				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop> -->
+ 				<prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
         		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                	<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>	

@@ -98,7 +98,8 @@ public class H2Test {
 		//SQL:select player0_.player_id as player_i1_0_, player0_.birth_date as birth_da2_0_, player0_.name as name3_0_, player0_.version as version4_0_ from PLAYERS player0_ where player0_.birth_date=? {1: DATE '1970-01-12'};
 
 		LOG.info("************* CACHE NIVEAU 2 ********************");
-		// !! Ne fonctionne pas
+		// Recherche dans le cache avant de retourner en base
+		// Contrôler avec les logs de la base
 		for (int i=pl.length-1; i>=0; i=i-1) {
 			player = playerService.findById(listOfPlayers.get(i).getId());
 			LOG.info((player==null) ? "Id "+listOfPlayers.get(i).getId()+"Inconnu" : player.toString());

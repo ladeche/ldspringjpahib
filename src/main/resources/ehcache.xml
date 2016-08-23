@@ -12,7 +12,7 @@
 	
  	<!-- Cache entité Player -->
     <cache name="ld.maven.ldspringjpahib.model.Player"
-           maxElementsInMemory="7"
+           maxElementsInMemory="20"
            eternal="true"
            overflowToDisk="false"
            timeToIdleSeconds="12000"

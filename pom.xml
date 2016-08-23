@@ -21,6 +21,7 @@
 		<springdata.version>1.6.1.RELEASE</springdata.version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<h2.version>1.4.192</h2.version>
+		<postgresql.version>9.3-1101-jdbc41</postgresql.version>
 		<ehcache.version>2.9.0</ehcache.version>
 
 
@@ -90,17 +91,27 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.ibm.db2</groupId>
+			<artifactId>db2jcc</artifactId>
+			<version>9.7</version>
+		</dependency>
+
+
+		<!-- ******************** -->
+		<!-- DB dependencies -->
+		<!-- ******************** -->
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.ibm.db2</groupId>
-			<artifactId>db2jcc</artifactId>
-			<version>9.7</version>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
+			<scope>runtime</scope>
 		</dependency>
-
 
 		<!-- ******************** -->
 		<!-- Logging dependencies -->
