@@ -20,7 +20,7 @@ public class TeamService {
 		teamRepository.save(team);
 	}
 
-	@Transactional
+	@Transactional(readOnly=true)
 	public Team findById(Integer id) {
 		return teamRepository.findOne(id);
 	}

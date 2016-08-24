@@ -26,11 +26,10 @@
 		</property>
 	</bean>
 
-
-
 	<!-- Scan ce package pour les composants -->
-	<context:component-scan base-package="ld.maven.ldspringjpahib" />
-	<jpa:repositories base-package="ld.maven.ldspringjpahib" entity-manager-factory-ref="entityManagerFactory" />
+	<context:component-scan base-package="ld.maven.ldspringjpahib.service ld.maven.ldspringjpahib.dao" />
+	<!-- Scan Spring Data Jpa repositories -->
+	<jpa:repositories base-package="ld.maven.ldspringjpahib.dao" entity-manager-factory-ref="entityManagerFactory" />
 	<!-- Activates various annotations to be detected in bean classes e.g: @Autowired -->
 	<context:annotation-config />
 
@@ -57,12 +56,12 @@
 		</property>
 		<property name="jpaProperties">
 			<props>
-<!-- 				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop> -->
  				<prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
         		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                	<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>	
 				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">${db.hibernate.temp.use_jdbc_metadata_defaults}</prop>
    			</props>
 		</property>
 	</bean>

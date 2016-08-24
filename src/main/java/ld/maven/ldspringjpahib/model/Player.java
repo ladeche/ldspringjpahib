@@ -32,7 +32,7 @@ public class Player {
 	
 	@Id
 	@Column(name="player_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
 	@Column(name = "name")
 	private String name;
