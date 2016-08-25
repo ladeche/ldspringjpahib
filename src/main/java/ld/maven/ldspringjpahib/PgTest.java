@@ -14,9 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ld.maven.ldspringjpahib.model.Equipment;
-import ld.maven.ldspringjpahib.model.JsonEquipmentDetails;
 import ld.maven.ldspringjpahib.model.Player;
 import ld.maven.ldspringjpahib.model.Team;
+import ld.maven.ldspringjpahib.model.subobjects.Decoration;
+import ld.maven.ldspringjpahib.model.subobjects.JsonEquipmentDetails;
 import ld.maven.ldspringjpahib.service.EquipmentService;
 import ld.maven.ldspringjpahib.service.PlayerService;
 import ld.maven.ldspringjpahib.service.TeamService;
@@ -146,17 +147,24 @@ public class PgTest {
 		LOG.info("************** JSONEQUIPMENT REPOSITORY *********************");
 		EquipmentService equipmentService = ctx.getBean(EquipmentService.class);
 
+		// Equipement 1
 		Equipment equipment = new Equipment();
 		equipment.setId(1);
 		equipment.setType("shirt");
 		JsonEquipmentDetails jsonEquipmentDetails = new JsonEquipmentDetails();
 		jsonEquipmentDetails.setMainColor("blue");
 		jsonEquipmentDetails.setSize("XL");
+		Decoration decoration = new Decoration();
+		decoration.setStarNumber(2L);
+		decoration.setStarSize("large");
+		decoration.setStripeNumber(3L);
+		jsonEquipmentDetails.setDecoration(decoration);
 		equipment.setJsonEquipmentDetails(jsonEquipmentDetails);
 		// insert seulement s'il n'existe pas déjà
 		LOG.info(equipment.toString());
 		equipmentService.add(equipment);
 		
+		// Equipement 2
 		equipment.setId(2);
 		equipment.setType("short");
 		jsonEquipmentDetails = new JsonEquipmentDetails();
@@ -178,7 +186,11 @@ public class PgTest {
 		// Recherche par un attribut inclus dans le Json
 		Equipment equipment4 = equipmentService.findOneByDetailsMainColor("blue");
 		LOG.info(equipment4.toString());
-		
+
+		// Recherche par Id
+		Equipment equipment5 = equipmentService.findById(3);
+		LOG.info(equipment5.toString());
+
 	}
 
 }

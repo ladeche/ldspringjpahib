@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
@@ -18,9 +19,13 @@ import org.hibernate.usertype.UserType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ld.maven.ldspringjpahib.model.JsonEquipmentDetails;
+import ld.maven.ldspringjpahib.model.subobjects.JsonEquipmentDetails;
+import ld.maven.ldspringjpahib.model.subobjects.JsonGenericObject;
 import ld.maven.ldspringjpahib.service.EquipmentService;
 
 public class JsonPostgresType implements UserType {
@@ -53,6 +58,7 @@ public class JsonPostgresType implements UserType {
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
 			throws HibernateException, SQLException {
+		LOG.info("nullSafeGet");
 		final String cellContent = rs.getString(names[0]);
 		LOG.info(cellContent);
 		if (cellContent == null) {
@@ -61,7 +67,17 @@ public class JsonPostgresType implements UserType {
 		try {
 			// On fait un mapping 
 			final ObjectMapper mapper = new ObjectMapper();
-			return mapper.readValue(cellContent.getBytes("UTF-8"), returnedClass());
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+			Object o = mapper.readValue(cellContent.getBytes("UTF-8"), returnedClass());
+			// Manage miscFeature non modelized (free) Map
+			JsonNode eqNode = mapper.readTree(cellContent.getBytes("UTF-8"));
+			if (eqNode.hasNonNull("miscFeatures")) {
+				// map miscFeatures in map provided by JsonGenericObject
+				((JsonGenericObject)o).setMiscFeatures(mapper.readValue(eqNode.path("miscFeatures").toString(),Map.class));
+			}
+			
+			
+			return o;
 		} catch (final Exception ex) {
 			throw new RuntimeException("Failed to convert String to Invoice: " + ex.getMessage(), ex);
 		}
@@ -70,12 +86,14 @@ public class JsonPostgresType implements UserType {
 	@Override
 	public void nullSafeSet(PreparedStatement st, Object value, int index, SessionImplementor session)
 			throws HibernateException, SQLException {
+		LOG.info("nullSafeSet");
 		if (value == null) {
 			st.setNull(index, Types.OTHER);
 			return;
 		}
 		try {
 			final ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(Include.NON_NULL);
 			final StringWriter w = new StringWriter();
 			mapper.writeValue(w, value);
 			w.flush();
@@ -89,6 +107,8 @@ public class JsonPostgresType implements UserType {
 
 	@Override
 	public Object deepCopy(Object value) throws HibernateException {
+		LOG.info("deepCopy:"+value.getClass().getName());
+		LOG.info(value.toString());
 		try {
     		// use serialization to create a deep copy
         	ByteArrayOutputStream bos = new ByteArrayOutputStream();

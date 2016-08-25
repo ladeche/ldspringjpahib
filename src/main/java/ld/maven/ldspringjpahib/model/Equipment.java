@@ -11,6 +11,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.springframework.core.style.ToStringCreator;
 
+import ld.maven.ldspringjpahib.model.subobjects.JsonEquipmentDetails;
+
 @Entity
 @Table(name = "EQUIPMENTS")
 @TypeDef(name = "JsonPostgresType", typeClass = ld.maven.ldspringjpahib.model.utils.JsonPostgresType.class)
@@ -55,9 +57,10 @@ public class Equipment {
 
 	@Override
 	public String toString() {
-		return "JsonEquipment : " + id 
-				+ " | " + type
-				+ " | " + jsonEquipmentDetails.toString();
+		String string = "JsonEquipment : " + id 
+				+ " , " + type;
+		string = string + " , [ "+ (jsonEquipmentDetails==null?"null":jsonEquipmentDetails.toString()) + " ] ";
+		return string; 
 	}
 
 }
