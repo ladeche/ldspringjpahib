@@ -1,7 +1,7 @@
 PGTest : Player, Team : voir H2
 JsonPostgres (Equipment) : 
 	Entité : Equipment (attributs classiques + Json (JsonEquipmentDetails)
-			 JsonEquipmentDetails est un objet Json typé + une Map libre (extension de JsonGenericObject)
+			 JsonEquipmentDetails est un objet Json typé + une Map libre permettant d'ajouter des attributs libres (extension de JsonGenericObject)
 			 JsonGenericObject : contient juste une map String,String
 		 	 Decoration : sous-object de JsonEquipmentDetails
  	Utils :
