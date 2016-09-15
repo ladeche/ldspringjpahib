@@ -32,6 +32,9 @@ public class H2Test {
 		teamTest();
 
 		ctx.close();
+		
+		LOG.info("************** END *********************");
+
 	}
 	
 	private static void playerTest() {

@@ -37,6 +37,8 @@ public class PgTest {
 		jsonEquipmentTest();
 
 		ctx.close();
+		LOG.info("************** END *********************");
+
 	}
 
 	private static void playerTest() {
