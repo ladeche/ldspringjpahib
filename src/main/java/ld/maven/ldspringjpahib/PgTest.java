@@ -31,14 +31,12 @@ public class PgTest {
 	public static void main(String[] args) {
 
 		// Classpath
-		ctx = new ClassPathXmlApplicationContext("classpath:/spring.xml");
+		ctx = new ClassPathXmlApplicationContext("classpath:/spring.xml"); 
 		//playerTest();
 		//teamTest();
 		jsonEquipmentTest();
 
 		ctx.close();
-		LOG.info("************** END *********************");
-
 	}
 
 	private static void playerTest() {

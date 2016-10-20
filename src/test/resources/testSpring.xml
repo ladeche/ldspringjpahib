@@ -2,7 +2,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
@@ -12,20 +12,34 @@
         http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/cache 
 	    http://www.springframework.org/schema/cache/spring-cache.xsd
+	    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
         ">
 
+
+	<!-- référencement du fichier properties -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:app.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<!-- Scan ce package pour les composants -->
-	<context:component-scan base-package="ld.maven.ldspringjpahib" />
+	<context:component-scan base-package="ld.maven.ldspringjpahib.service ld.maven.ldspringjpahib.dao" />
+	<!-- Scan Spring Data Jpa repositories -->
+	<jpa:repositories base-package="ld.maven.ldspringjpahib.dao" entity-manager-factory-ref="entityManagerFactory" />
 	<!-- Activates various annotations to be detected in bean classes e.g: @Autowired -->
 	<context:annotation-config />
 
 	<!-- La datasource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="org.h2.Driver" />
-		<property name="url" value="jdbc:h2:mem:myh2database" />
-		<property name="username" value="sa" />
-		<property name="password" value="" />
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
 	</bean>
 
 	<!-- L'entity manager factory -->
@@ -42,11 +56,12 @@
 		</property>
 		<property name="jpaProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
-				<prop key="hibernate.cache.use_second_level_cache">false</prop>
+ 				<prop key="hibernate.dialect">${db.hibernate.dialect}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
         		<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
                	<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>	
-				<prop key="hibernate.cache.use_query_cache">false</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.temp.use_jdbc_metadata_defaults">${db.hibernate.temp.use_jdbc_metadata_defaults}</prop>
    			</props>
 		</property>
 	</bean>

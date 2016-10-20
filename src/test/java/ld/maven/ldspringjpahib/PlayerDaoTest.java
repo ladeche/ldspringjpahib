@@ -1,27 +1,24 @@
 package ld.maven.ldspringjpahib;
 
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import ld.maven.ldspringjpahib.dao.PlayerDao;
-import ld.maven.ldspringjpahib.model.Player;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-
-import org.junit.runner.RunWith;
-import static org.junit.Assert.*;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import ld.maven.ldspringjpahib.dao.PlayerDao;
+import ld.maven.ldspringjpahib.model.Player;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/testSpring.xml"})
 public class PlayerDaoTest {
 
-/*	@Autowired
+	@Autowired
 	protected PlayerDao playerDao;
 	
 	private static Date initBirthDate(String birthDate) {
@@ -37,13 +34,15 @@ public class PlayerDaoTest {
 	}
 	
 	@Test
-	public void testPersist() {
+	@Transactional
+	public void testCreateNewPlayer() {
 		Player player = new Player();
-		player.setName("player1");
+		player.setName("player2");
 		player.setBirthDate(initBirthDate("07/06/1990"));
 		playerDao.persist(player);
+		playerDao.flush(); // Sans cela rien n'est poussé à la base
 	}
-
+/*
 	@Test
 	public void testMergePlayer() {
 		fail("Not yet implemented");

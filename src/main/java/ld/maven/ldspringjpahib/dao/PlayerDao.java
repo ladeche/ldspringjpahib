@@ -31,6 +31,10 @@ public class PlayerDao {
 	
 	@PersistenceContext
 	private EntityManager em;
+	
+	public void flush() {
+		em.flush();
+	}
 
 	public void persist (Player player) {
 		em.persist(player);
