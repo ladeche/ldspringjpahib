@@ -37,6 +37,7 @@ public class PlayerDao {
 	}
 
 	public void persist (Player player) {
+		LOG.debug("playerPersisted Managed(Dao)>"+this.checkIfManaged(player));
 		em.persist(player);
 	}
 
@@ -65,12 +66,16 @@ public class PlayerDao {
 		Query q = em.createNativeQuery("TRUNCATE TABLE "+tableName); // SQL
 		q.executeUpdate();
 	}
-
 	
 	@Cacheable(value="playerFindCache", key="#id")
 	public Player find (Integer id) {
 		return (Player) em.find(Player.class, id);
 	}
+
+	public Player findByName (String name) {
+		return (Player) em.createQuery("SELECT p FROM Player p WHERE p.name = ?1").setParameter(1, name).getSingleResult();
+	}
+
 	
 	public List<Player> findAll() {
 		return em.createQuery("SELECT p FROM Player p").getResultList(); // JPQL
