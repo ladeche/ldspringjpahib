@@ -1,0 +1,1 @@
+VoltTest : Ne fonctionne pas car VoltDB ne fonctionne pas avec Hibernate.

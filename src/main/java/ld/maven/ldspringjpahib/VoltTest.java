@@ -1,30 +1,22 @@
 package ld.maven.ldspringjpahib;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-
-import javax.persistence.Query;
-import javax.persistence.Table;
-
-import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import ld.maven.ldspringjpahib.model.Equipment;
 import ld.maven.ldspringjpahib.model.Player;
 import ld.maven.ldspringjpahib.model.Team;
-import ld.maven.ldspringjpahib.model.subobjects.Decoration;
-import ld.maven.ldspringjpahib.model.subobjects.JsonEquipmentDetails;
-import ld.maven.ldspringjpahib.service.EquipmentService;
 import ld.maven.ldspringjpahib.service.PlayerService;
 import ld.maven.ldspringjpahib.service.TeamService;
 
-public class PgTest {
+public class VoltTest {
 
-	private static final Logger LOG = LoggerFactory.getLogger(PgTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(VoltTest.class);
 
 	private static ClassPathXmlApplicationContext ctx;
 
@@ -34,7 +26,6 @@ public class PgTest {
 		ctx = new ClassPathXmlApplicationContext("classpath:/spring.xml"); 
 		playerTest();
 		//teamTest();
-		//jsonEquipmentTest();
 
 		ctx.close();
 	}
@@ -143,54 +134,5 @@ public class PgTest {
 		LOG.info(team.toString());
 	}
 
-	private static void jsonEquipmentTest() {
-		LOG.info("************** JSONEQUIPMENT REPOSITORY *********************");
-		EquipmentService equipmentService = ctx.getBean(EquipmentService.class);
-
-		// Equipement 1
-		Equipment equipment = new Equipment();
-		equipment.setId(1);
-		equipment.setType("shirt");
-		JsonEquipmentDetails jsonEquipmentDetails = new JsonEquipmentDetails();
-		jsonEquipmentDetails.setMainColor("blue");
-		jsonEquipmentDetails.setSize("XL");
-		Decoration decoration = new Decoration();
-		decoration.setStarNumber(2L);
-		decoration.setStarSize("large");
-		decoration.setStripeNumber(3L);
-		jsonEquipmentDetails.setDecoration(decoration);
-		equipment.setJsonEquipmentDetails(jsonEquipmentDetails);
-		// insert seulement s'il n'existe pas déjà
-		LOG.info(equipment.toString());
-		equipmentService.add(equipment);
-		
-		// Equipement 2
-		equipment.setId(2);
-		equipment.setType("short");
-		jsonEquipmentDetails = new JsonEquipmentDetails();
-		jsonEquipmentDetails.setMainColor("white");
-		jsonEquipmentDetails.setSize("XL");
-		equipment.setJsonEquipmentDetails(jsonEquipmentDetails);
-		// insert seulement s'il n'existe pas déjà
-		LOG.info(equipment.toString());
-		equipmentService.add(equipment);
-
-		// Recherche par Id
-		Equipment equipment2 = equipmentService.findById(1);
-		LOG.info(equipment2.toString());
-
-		// Recherche par type
-		Equipment equipment3 = equipmentService.findOneByType("short");
-		LOG.info(equipment3.toString());
-
-		// Recherche par un attribut inclus dans le Json
-		Equipment equipment4 = equipmentService.findOneByDetailsMainColor("blue");
-		LOG.info(equipment4.toString());
-
-		// Recherche par Id
-		Equipment equipment5 = equipmentService.findById(3);
-		LOG.info(equipment5.toString());
-
-	}
 
 }

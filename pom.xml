@@ -24,6 +24,7 @@
 <!-- 		<hibernate.version>4.3.5.Final</hibernate.version> -->
 		<h2.version>1.4.192</h2.version>
 		<postgresql.version>9.4.1208</postgresql.version>
+		<voltdb.version>6.9</voltdb.version>
 		<ehcache.version>2.9.0</ehcache.version>
 		<jackson.version>2.7.4</jackson.version>
 
@@ -129,7 +130,12 @@
 			<version>${postgresql.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.voltdb</groupId>
+			<artifactId>voltdbclient</artifactId>
+			<version>${voltdb.version}</version>
+			<scope>runtime</scope>
+		</dependency>
 		<!-- ******************** -->
 		<!-- JackSon dependencies -->
 		<!-- ******************** -->

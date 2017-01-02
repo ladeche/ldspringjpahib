@@ -37,7 +37,7 @@ public class PlayerService {
 	}
 
 	// DELETE
-	@Transactional
+	//@Transactional
 	public void delete(Player player) {
 		LOG.debug("Managed(PlayerService):"+playerDao.checkIfManaged(player));
 		playerDao.remove(player);
