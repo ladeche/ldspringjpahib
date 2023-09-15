@@ -26,7 +26,7 @@
 		<postgresql.version>9.4.1208</postgresql.version>
 		<voltdb.version>6.9</voltdb.version>
 		<ehcache.version>2.9.0</ehcache.version>
-		<jackson.version>2.7.4</jackson.version>
+		<jackson.version>2.15.2</jackson.version>
 
 
 	</properties>
